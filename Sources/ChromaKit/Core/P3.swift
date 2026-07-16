@@ -22,14 +22,29 @@ public struct P3 {
     public func gammaCorrected() -> P3 {
 		P3(r: gammaCorrected(r), g: gammaCorrected(g), b: gammaCorrected(b))
 	}
-	
+
     func gammaCorrected(_ c: Double) -> Double {
 		let sign = c.sign == .plus ? 1.0 : -1.0
-		
+
 		if abs(c) > 0.0031308 {
 			return sign * (1.055 * pow(abs(c), 1/2.4) - 0.055)
 		}
-		
+
 		return 12.92 * c
+	}
+
+	/// Removes gamma encoding, returning linear-light components. Inverse of `gammaCorrected()`.
+    public func linearized() -> P3 {
+		P3(r: linearized(r), g: linearized(g), b: linearized(b))
+	}
+
+    func linearized(_ c: Double) -> Double {
+		let sign = c.sign == .plus ? 1.0 : -1.0
+
+		if abs(c) > 0.04045 {
+			return sign * pow((abs(c) + 0.055) / 1.055, 2.4)
+		}
+
+		return c / 12.92
 	}
 }

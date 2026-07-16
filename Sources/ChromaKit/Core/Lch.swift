@@ -16,7 +16,22 @@ public struct Lch: XYZConvertable {
         self.c = c
         self.h = h
     }
-	
+
+	/// Creates an Lch value from a Lab color.
+    public init(_ lab: Lab) {
+		self.init(l: lab.l, c: hypot(lab.a, lab.b), h: hueDegrees(a: lab.a, b: lab.b))
+	}
+
+	/// Creates an Lch value from an XYZ (D65) color.
+    public init(_ xyz: XYZ) {
+		self.init(Lab(xyz))
+	}
+
+	/// Creates an Lch value from a gamma-encoded display P3 color.
+    public init(_ p3: P3) {
+		self.init(XYZ(p3))
+	}
+
 	// MARK: Conversions
 	
     public var lab: Lab {

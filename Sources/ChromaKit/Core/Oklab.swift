@@ -16,7 +16,26 @@ public struct Oklab: XYZConvertable {
         self.a = a
         self.b = b
     }
-	
+
+	/// Creates an Oklab value from an XYZ (D65) color.
+    public init(_ xyz: XYZ) {
+		let xyzToLms = ColorMatrix(
+			x: (0.8190224379967030,  0.3619062600528904, -0.1288737815209879),
+			y: (0.0329836539323885,  0.9292868615863434,  0.0361446663506424),
+			z: (0.0481771893596242,  0.2642395317527308,  0.6335478284694309)
+		)
+
+		let lmsToOklab = ColorMatrix(
+			x: (0.2104542683093140,  0.7936177747023054, -0.0040720430116193),
+			y: (1.9779985324311684, -2.4285922420485799,  0.4505937096174110),
+			z: (0.0259040424655478,  0.7827717124575296, -0.8086757549230774)
+		)
+
+		let lms = xyzToLms.dotProduct((xyz.x, xyz.y, xyz.z))
+		let (l, a, b) = lmsToOklab.dotProduct((cbrt(lms.0), cbrt(lms.1), cbrt(lms.2)))
+		self.init(l: l, a: a, b: b)
+	}
+
 	// MARK: Conversions
 	
     public var xyz: XYZ {

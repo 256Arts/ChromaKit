@@ -21,7 +21,23 @@ public struct Lab: XYZConvertable {
         self.a = a
         self.b = b
     }
-	
+
+	/// Creates a Lab value from an XYZ (D65) color.
+    public init(_ xyz: XYZ) {
+		let k = 24389.0/27.0
+		let e = 216.0/24389.0
+
+		func f(_ t: Double) -> Double {
+			t > e ? cbrt(t) : (k * t + 16) / 116
+		}
+
+		let fx = f(xyz.x / Self.d65WhitePoint.x)
+		let fy = f(xyz.y / Self.d65WhitePoint.y)
+		let fz = f(xyz.z / Self.d65WhitePoint.z)
+
+		self.init(l: 116 * fy - 16, a: 500 * (fx - fy), b: 200 * (fy - fz))
+	}
+
 	// MARK: Conversions
 	
     public var xyz: XYZ {

@@ -12,4 +12,16 @@ public extension UIColor {
     }
 
 }
+
+public extension P3 {
+
+    /// Creates a display P3 value from a `UIColor`, or `nil` if it can't be converted to display P3.
+    init?(_ uiColor: UIColor) {
+        guard let space = CGColorSpace(name: CGColorSpace.displayP3),
+              let converted = uiColor.cgColor.converted(to: space, intent: .defaultIntent, options: nil),
+              let components = converted.components, components.count >= 3 else { return nil }
+        self.init(r: components[0], g: components[1], b: components[2])
+    }
+
+}
 #endif

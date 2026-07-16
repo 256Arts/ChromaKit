@@ -49,7 +49,7 @@ final class ChromaKitACCLTests: XCTestCase {
   
   func testLAB() throws {
     let lab = Lab(l: 350, a: 80, b: 80)
-    let standardResult = lab.xyz()
+    let standardResult = lab.xyz
     let ACCLResult = lab.accl_xyz()
     
     XCTAssertEqual(standardResult.x, ACCLResult.x, accuracy: 0.0001)
@@ -61,7 +61,7 @@ final class ChromaKitACCLTests: XCTestCase {
     measure {
       for _ in 0..<10000 {
         let lab = Lab(l: Double.random(in: 0...360), a: Double.random(in: 0...100), b: Double.random(in: 0...100))
-        let _ = lab.xyz()
+        let _ = lab.xyz
       }
     }
   }
@@ -77,7 +77,7 @@ final class ChromaKitACCLTests: XCTestCase {
   
   func testXYZ() throws {
     let xyz = XYZ(x: 255, y: 125, z: 64)
-    let standardResult = xyz.p3()
+    let standardResult = xyz.p3
     let ACCLResult = xyz.accl_p3()
     
     XCTAssertEqual(standardResult.r, ACCLResult.r, accuracy: 0.0001)
@@ -89,7 +89,7 @@ final class ChromaKitACCLTests: XCTestCase {
     measure {
       for _ in 0..<10000 {
         let lab = XYZ(x: Double.random(in: 0...360), y: Double.random(in: 0...100), z: Double.random(in: 0...100))
-        let _ = lab.p3()
+        let _ = lab.p3
       }
     }
   }
@@ -98,7 +98,7 @@ final class ChromaKitACCLTests: XCTestCase {
     measure {
       for _ in 0..<10000 {
         let lab = XYZ(x: Double.random(in: 0...360), y: Double.random(in: 0...100), z: Double.random(in: 0...100))
-        let _ = lab.p3()
+        let _ = lab.p3
       }
     }
   }

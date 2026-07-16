@@ -3,6 +3,12 @@ import Foundation
 /// A 3-element tuple used to represent a set of color components, such as `rgb`,` lab`, `lch`, and so on.
 typealias ColorComponents = (Double, Double, Double)
 
+/// The polar hue angle in degrees `[0, 360)` for the given rectangular `a`/`b` chroma components.
+func hueDegrees(a: Double, b: Double) -> Double {
+	let degrees = atan2(b, a) * 180 / .pi
+	return degrees < 0 ? degrees + 360 : degrees
+}
+
 /// A 3x3 matrix used to perform color transformations
 struct ColorMatrix {
 	var x: ColorComponents

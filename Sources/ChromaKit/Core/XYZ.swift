@@ -16,7 +16,21 @@ public struct XYZ: XYZConvertable {
         self.y = y
         self.z = z
     }
-	
+
+	/// Creates an XYZ (D65) value from a gamma-encoded display P3 color.
+    public init(_ p3: P3) {
+		let linear = p3.linearized()
+
+		let linearP3ToXYZ = ColorMatrix(
+			x: (0.48657094864821615, 0.26566769316909205, 0.19821728523436247),
+			y: (0.22897456406974878, 0.69173852183650620, 0.07928691409374500),
+			z: (0.0,                 0.04511338185890264, 1.04394436890097570)
+		)
+
+		let (x, y, z) = linearP3ToXYZ.dotProduct((linear.r, linear.g, linear.b))
+		self.init(x: x, y: y, z: z)
+	}
+
 	// MARK: Conversions
 	
     public var p3: P3 {
